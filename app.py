@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import pandas as pd
 
 DATABASE_ID = "0ebd7c81e3984846bfe86cc16658026a"
 NOTION_TOKEN = "secret_ACWipYLLkakKzVBGixKUEsaLcQjP8C1xMLuUAIGMztH"
@@ -30,32 +31,54 @@ scores = []
 reading_streak = 0
 sleeping_streak = 0
 objective_streak = 0
+exercise_streak = 0
+meditation_streak = 0
 journal_streak = 0
-for page in pages:
-    page_id = page["id"]
+days = []
+for page in reversed(pages):
     props = page["properties"]
-    page_type = props['Type']['select']['name']
-    if page_type == "Journée":
-        score = props["Score des habitudes"]['formula']['number']
-        reading_streak += 1 if props["Lire un livre"]['checkbox'] else 0
-        sleeping_streak += 1 if props["Dormir avant minuit"]['checkbox'] else 0
-        objective_streak += 1 if props["Objectifs atteints"]['checkbox'] else 0
-        journal_streak += 1 if props["Journaling"]['checkbox'] else 0
-        scores.append(score)
-
-
-
+    if props['Type']['select']['name'] == "Journée":
+        days.append(props["Date"]["date"]["start"][5:10])
+        scores.append(props["Score des habitudes"]['formula']['number'])
+        if props["Lire un livre"]['checkbox']: 
+            reading_streak += 1 
+        else: reading_streak = 0
+        if props["Dormir avant minuit"]['checkbox']: 
+            sleeping_streak += 1 
+        else: 
+            sleeping_streak = 0
+        if props["Objectifs atteints"]['checkbox']: 
+            objective_streak += 1 
+        else: 
+            objective_streak = 0
+        if props["Exercise"]["checkbox"]: 
+            exercise_streak += 1
+        else:
+            exercise_streak = 0
+        if props["Meditation"]["checkbox"]: 
+            meditation_streak += 1
+        else:
+            meditation_streak = 0
+        if props["Journaling"]['checkbox']: 
+            journal_streak += 1 
+        else: 
+            journal_streak = 0
+        
 st.title("Habit tracker")
 col1, col2 = st.columns(2)
 with col1:
-    st.header(f":fire: Reading streak: {reading_streak}")
-    st.header(f":fire: Sleeping streak: {sleeping_streak}")
-    st.header(f":fire: Objectifs streak: {objective_streak}")
-    st.header(f":fire: Journaling streak: {journal_streak}")
+    st.header(":fire: :repeat: Streaks")
+    st.header(f":white_check_mark: Objectifs: {objective_streak}")
+    st.header(f":book: Reading: {reading_streak}")
+    st.header(f":bed: Sleeping: {sleeping_streak}")
+    st.header(f":muscle: Exercise: {exercise_streak}")
+    st.header(f":leaves: Meditation: {exercise_streak}")
+    st.header(f":notebook: Journal: {journal_streak}")
 
 with col2:
     st.header("Habit scores")
-    st.line_chart(scores)
+    df = pd.DataFrame(scores[len(scores)-14:], index=days[len(days)-14:], columns=['Scores'])
+    st.bar_chart(df)
 
 
 
