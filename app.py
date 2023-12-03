@@ -1,6 +1,4 @@
 import streamlit as st
-import seaborn as sns
-import matplotlib.pyplot as plt
 import requests
 
 DATABASE_ID = "0ebd7c81e3984846bfe86cc16658026a"
@@ -45,15 +43,6 @@ for page in pages:
         journal_streak += 1 if props["Journaling"]['checkbox'] else 0
         scores.append(score)
 
-# Function to create the barplot
-def create_barplot(data):
-    plt.figure(figsize=(20, 12)) 
-    sns.barplot(x=list(range(len(data))), y=data, color="blue")
-    plt.xlabel('Day')
-    plt.ylabel('Habit score')
-    st.pyplot(plt)
-
-
 st.title("Habit tracker")
 
 st.header(f":fire: Reading streak: {reading_streak}")
@@ -62,7 +51,7 @@ st.header(f":fire: Objectifs streak: {objective_streak}")
 st.header(f":fire: Journaling streak: {journal_streak}")
 
 st.header("Habit scores")
-create_barplot(scores)
+st.line_chart(scores)
 
 
 
