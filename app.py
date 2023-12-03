@@ -65,19 +65,17 @@ for page in reversed(pages):
             journal_streak = 0
         
 st.title("Habit tracker")
-col1, col2, col3 = st.columns(3)
+col1, col2 = st.columns([2,3])
 with col1:
     st.header(":fire: :repeat: Streaks")
-    st.header(f":white_check_mark: Objectifs: {objective_streak}")
-    st.header(f":book: Reading: {reading_streak}")
-    st.header(f":bed: Sleeping: {sleeping_streak}")
+    st.markdown(f'<h2 style="font-size: 24px;">✅ Objectifs: {objective_streak}</h2>', unsafe_allow_html=True)
+    st.markdown(f'<h2 style="font-size: 24px;">📚 Reading: {reading_streak}</h2>', unsafe_allow_html=True)
+    st.markdown(f'<h2 style="font-size: 24px;">🛌 Sleeping: {sleeping_streak}</h2>', unsafe_allow_html=True)
+    st.markdown(f'<h2 style="font-size: 24px;">💪 Exercise: {exercise_streak}</h2>', unsafe_allow_html=True)
+    st.markdown(f'<h2 style="font-size: 24px;">🍃 Meditation: {meditation_streak}</h2>', unsafe_allow_html=True)
+    st.markdown(f'<h2 style="font-size: 24px;">📓 Journal: {journal_streak}</h2>', unsafe_allow_html=True)
 
 with col2:
-    st.header(f":muscle: Exercise: {exercise_streak}")
-    st.header(f":leaves: Meditation: {exercise_streak}")
-    st.header(f":notebook: Journal: {journal_streak}")
-
-with col3:
     st.header("Habit scores")
     df = pd.DataFrame(scores[len(scores)-14:], index=days[len(days)-14:], columns=['Scores'])
     st.bar_chart(df)
