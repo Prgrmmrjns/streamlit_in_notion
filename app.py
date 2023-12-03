@@ -65,17 +65,19 @@ for page in reversed(pages):
             journal_streak = 0
         
 st.title("Habit tracker")
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 with col1:
     st.header(":fire: :repeat: Streaks")
     st.header(f":white_check_mark: Objectifs: {objective_streak}")
     st.header(f":book: Reading: {reading_streak}")
     st.header(f":bed: Sleeping: {sleeping_streak}")
+
+with col2:
     st.header(f":muscle: Exercise: {exercise_streak}")
     st.header(f":leaves: Meditation: {exercise_streak}")
     st.header(f":notebook: Journal: {journal_streak}")
 
-with col2:
+with col3:
     st.header("Habit scores")
     df = pd.DataFrame(scores[len(scores)-14:], index=days[len(days)-14:], columns=['Scores'])
     st.bar_chart(df)
