@@ -43,15 +43,19 @@ for page in pages:
         journal_streak += 1 if props["Journaling"]['checkbox'] else 0
         scores.append(score)
 
+
+
 st.title("Habit tracker")
+col1, col2 = st.columns(2)
+with col1:
+    st.header(f":fire: Reading streak: {reading_streak}")
+    st.header(f":fire: Sleeping streak: {sleeping_streak}")
+    st.header(f":fire: Objectifs streak: {objective_streak}")
+    st.header(f":fire: Journaling streak: {journal_streak}")
 
-st.header(f":fire: Reading streak: {reading_streak}")
-st.header(f":fire: Sleeping streak: {sleeping_streak}")
-st.header(f":fire: Objectifs streak: {objective_streak}")
-st.header(f":fire: Journaling streak: {journal_streak}")
-
-st.header("Habit scores")
-st.line_chart(scores)
+with col2:
+    st.header("Habit scores")
+    st.line_chart(scores)
 
 
 
